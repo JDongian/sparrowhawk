@@ -92,6 +92,7 @@ bool Normalizer::Normalize(const string &input, string *output) const {
   std::unique_ptr<Utterance> utt;
   utt.reset(new Utterance);
   if (!Normalize(utt.get(), input)) return false;
+  LoggerDebug("Normalize Result: [%s]\n", input);
   *output = LinearizeWords(utt.get());
   return true;
 }
@@ -155,7 +156,8 @@ bool Normalizer::VerbalizeUtt(Utterance *utt) const {
           (utt->linguistic().words_size() == 0 ||
            utt->linguistic().words(
                utt->linguistic().words_size() - 1).id() != "sil")) {
-        AddWord(utt, token, "sil");
+        //AddWord(utt, token, "sil");
+        AddWord(utt, token, ""); // delete all punctuation
       }
     } else if (token->type() == Token::SEMIOTIC_CLASS) {
       if (!token->skip()) {
