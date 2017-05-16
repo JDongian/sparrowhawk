@@ -108,7 +108,9 @@ string Normalizer::LinearizeWords(Utterance* utt) const {
   string output;
   for (int i = 0; i < utt->linguistic().words_size(); ++i) {
     if (i) output.append(" ");
-    output.append(utt->linguistic().words(i).spelling());
+    auto word = utt->linguistic().words(i).spelling();
+    output.append(word);
+    std::cout << "Added word: [" << word << "](" << i << ")" << std::endl;
   }
   return output;
 }

@@ -92,7 +92,7 @@ bool Normalizer::Normalize(const string &input, string *output) const {
   std::unique_ptr<Utterance> utt;
   utt.reset(new Utterance);
   if (!Normalize(utt.get(), input)) return false;
-  LoggerDebug("Normalize Result: [%s]\n", input);
+  LoggerDebug("Input: [%s]\n", input.c_str());
   *output = LinearizeWords(utt.get());
   return true;
 }
