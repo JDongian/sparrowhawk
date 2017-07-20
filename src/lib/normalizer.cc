@@ -152,13 +152,13 @@ bool Normalizer::VerbalizeUtt(Utterance *utt) const {
     // set via the grammar, though ultimately we'd like a proper phrasing
     // module.
     if (token->type() == Token::PUNCT) {
-      if (token->phrase_break() &&
-          (utt->linguistic().words_size() == 0 ||
-           utt->linguistic().words(
-               utt->linguistic().words_size() - 1).id() != "sil")) {
-        //AddWord(utt, token, "sil");
-        AddWord(utt, token, ""); // delete all punctuation
-      }
+      //if (token->phrase_break() &&
+      //    (utt->linguistic().words_size() == 0 ||
+      //     utt->linguistic().words(
+      //         utt->linguistic().words_size() - 1).id() != "sil")) {
+      //  //AddWord(utt, token, "sil");
+      //  AddWord(utt, token, ""); // delete all punctuation
+      //}
     } else if (token->type() == Token::SEMIOTIC_CLASS) {
       if (!token->skip()) {
         LoggerDebug("Verbalizing: [%s]\n", token_form.c_str());
