@@ -11,6 +11,7 @@
 // limitations under the License.
 //
 // Copyright 2015 and onwards Google, Inc.
+// Modified 2017 Rev, Inc.
 #include <sparrowhawk/normalizer.h>
 
 #include <memory>
@@ -145,18 +146,15 @@ bool Normalizer::VerbalizeUtt(Utterance *utt) const {
   for (int i = 0; i < utt->linguistic().tokens_size(); ++i) {
     Token *token = utt->mutable_linguistic()->mutable_tokens(i);
     string token_form = ToString(*token);
+
     token->set_first_daughter(-1);  // Sets to default unset.
     token->set_last_daughter(-1);   // Sets to default unset.
     // Add a single silence for punctuation that forms phrase breaks. This is
     // set via the grammar, though ultimately we'd like a proper phrasing
     // module.
     if (token->type() == Token::PUNCT) {
-      if (token->phrase_break() &&
-          (utt->linguistic().words_size() == 0 ||
-           utt->linguistic().words(
-               utt->linguistic().words_size() - 1).id() != "sil")) {
-        AddWord(utt, token, "sil");
-      }
+      // Insert punctuation (in the same manner as words are added).
+      AddWord(utt, token, token->wordid() + "PUNCTUATION");
     } else if (token->type() == Token::SEMIOTIC_CLASS) {
       if (!token->skip()) {
         LoggerDebug("Verbalizing: [%s]\n", token_form.c_str());
